@@ -42,6 +42,33 @@ app.post("/api/insert",(req, res)=>{
     
 });
 
+app.delete("/api/delete/:movieName",(req, res)=>{
+    const name=req.params.movieName
+    
+    const sqlDelete= "DELETE FROM movie_reviews WHERE movieName=?"
+    db.query(sqlDelete, name,(err,result)=> {
+        if (err) console.log(err)
+        
+    })
+    
+});
+
+app.put("/api/update", (req, res) => {
+    const { movieName, movieReview } = req.body;
+  
+    const sqlUpdate = "UPDATE movie_reviews SET movieReview=? WHERE movieName=?";
+    db.query(sqlUpdate, [movieReview, movieName], (err, result) => {
+      if (err) {
+        console.error("Error updating review:", err);
+        res.status(500).send("Error updating review");
+      } else {
+        res.send(result);
+      }
+    });
+  });
+  
+    
+
 app.listen(5174,()=>{
     console.log("running on port 5174");
 });
